@@ -6,7 +6,7 @@ on:
       file_url:
         description: 'Direct file URL to download'
         required: true
-        default: 'https://s2.pesk.top/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NjcyMjIwMDAsInN1YiI6IkR0U2VhcmNoIERlc2t0b3AgMjAyNC4wMiBCdWlsZCA4ODIxIFtQZXNrVG9wLmNvbV0ucmFyIiwic291cmNlIjoiaHR0cHM6XC9cL3Blc2t0b3AuY29tXC8ifQ.2hrZlHoBGZHrbqsOdzY8JbiZxM_Dy6cAcCPV8mzmlDI'
+        default: 'https://www.ynet.co.il/articles/0,7340,L-3396777,00.html'
 jobs:
   download-and-upload:
     runs-on: ubuntu-latest
