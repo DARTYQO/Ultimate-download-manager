@@ -13,11 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download file
-        run: |
-          mkdir -p downloads
-          curl -L "${{ github.event.inputs.file_url }}" -o "downloads/downloaded_file"
+        run: curl -L "${{ github.event.inputs.file_url }}" -o downloaded_file
 
       - name: Upload file as artifact
         uses: actions/upload-artifact@v4
         with:
           name: downloaded-file
+          path: downloaded_file
