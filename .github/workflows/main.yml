@@ -1,4 +1,4 @@
-name: Download and Upload File
+name: Download File
 
 on:
   workflow_dispatch:
@@ -7,30 +7,17 @@ on:
         description: 'Direct file URL to download'
         required: true
         default: 'https://s2.pesk.top/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NjcyMjIwMDAsInN1YiI6IkR0U2VhcmNoIERlc2t0b3AgMjAyNC4wMiBCdWlsZCA4ODIxIFtQZXNrVG9wLmNvbV0ucmFyIiwic291cmNlIjoiaHR0cHM6XC9cL3Blc2t0b3AuY29tXC8ifQ.2hrZlHoBGZHrbqsOdzY8JbiZxM_Dy6cAcCPV8mzmlDI'
+
 jobs:
-  download-and-upload:
+  download-file:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install Git LFS
-        run: git lfs install
-
       - name: Download file
         run: |
-          # Create downloads directory if it doesn't exist
           mkdir -p downloads
-          # Download the file using curl
           curl -L "${{ github.event.inputs.file_url }}" -o "downloads/downloaded_file"
-        
-      - name: Track large file with Git LFS
-        run: git lfs track "downloads/downloaded_file"
 
-      - name: Commit and push file
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .gitattributes downloads/downloaded_file
-          git commit -m "Add downloaded file to Git LFS"
-          git push
+      - name: Upload file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: downloaded-file
