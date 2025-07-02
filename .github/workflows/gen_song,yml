@@ -1,0 +1,30 @@
+name: Generate Hebrew Song with Suno
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-song:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run song generation script
+        env:
+          SUNO_API_KEY: ${{ secrets.SUNO_API_KEY }}
+        run: python song_generate.py
+
+      - name: Upload song response artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: song_response
+          path: song_response.json
