@@ -1,7 +1,7 @@
 import requests
 import os
 
-API_KEY =  "cbda1568442d9391191970c30a84142a"
+API_KEY =  "b184b89ef6bfd4c443564208b09dc3ea"
 ENDPOINT = "https://api.suno.ai/v1/song/generate"
 
 headers = {
