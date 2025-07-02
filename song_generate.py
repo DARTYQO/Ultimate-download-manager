@@ -6,7 +6,8 @@ ENDPOINT = "https://api.suno.ai/v1/song/generate"
 
 headers = {
     "Authorization": f"Bearer {API_KEY}",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Accept": "application/json"
 }
 
 data = {
