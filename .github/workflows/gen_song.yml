@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SUNO_COOKIE: "_clck=1qkbgqg%7C2%7Cfx9%7C0%7C2009; _clsk=1p2jr0t%7C1751419976778%7C4%7C1%7Cn.clarity.ms%2Fcollect; _gcl_au=1.1.692938906.1751419868.1348275018.1751419971.1751419976; authorization=b6ee24df-9f7e-4bbf-a4e8-3e40faf5faed; g_state={\"i_l\":0}"
-      TWOCAPTCHA_KEY: "הכנס_כאן_את_המפתח_שלך"
+      TWOCAPTCHA_KEY: "eab98b3e33d19ac9174f2f54d836b241"
       BROWSER: chromium
       BROWSER_GHOST_CURSOR: false
       BROWSER_LOCALE: en
