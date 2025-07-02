@@ -38,3 +38,8 @@ jobs:
         run: |
           pip install requests
           python song_generate.py
+
+      - name: Show suno-api logs
+    run: |
+      sleep 10
+      cat suno-api/.next/trace | tail -n 100 || echo "No trace log"      
