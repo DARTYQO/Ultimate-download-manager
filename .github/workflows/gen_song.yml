@@ -1,28 +1,40 @@
-name: Generate Hebrew Song with Suno
+name: Suno API Workflow
 
 on:
   workflow_dispatch:
 
 jobs:
-  generate-song:
+  suno:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    env:
+      SUNO_COOKIE: "_clck=1qkbgqg%7C2%7Cfx9%7C0%7C2009; _clsk=1p2jr0t%7C1751419976778%7C4%7C1%7Cn.clarity.ms%2Fcollect; _gcl_au=1.1.692938906.1751419868.1348275018.1751419971.1751419976; authorization=b6ee24df-9f7e-4bbf-a4e8-3e40faf5faed; g_state={\"i_l\":0}"
+      TWOCAPTCHA_KEY: "הכנס_כאן_את_המפתח_שלך"
+      BROWSER: chromium
+      BROWSER_GHOST_CURSOR: false
+      BROWSER_LOCALE: en
+      BROWSER_HEADLESS: true
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.10'
+          node-version: 20
 
       - name: Install dependencies
-        run: pip install requests suno-api
+        run: |
+          git clone https://github.com/gcui-art/suno-api.git
+          cd suno-api
+          npm install
 
-      - name: Run song generation script
-        run: python song_generate.py
+      - name: Start suno-api server
+        run: |
+          cd suno-api
+          nohup npm run dev &
+          sleep 30
 
-      - name: Upload song response artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: song_response
-          path: song_response.json
+      - name: Run your Python script
+        run: |
+          pip install requests
+          python song_generate.py
