@@ -1,26 +1,40 @@
-# ...existing code...
-from suno_api import Suno
+import requests
+import time
 
-# הכנס כאן את העוגיות שלך כפי שהעתקת מהדפדפן
-cookies = {
-    "_clck": "1qkbgqg%7C2%7Cfx9%7C0%7C2009",
-    "_clsk": "1p2jr0t%7C1751419976778%7C4%7C1%7Cn.clarity.ms%2Fcollect",
-    "_gcl_au": "1.1.692938906.1751419868.1348275018.1751419971.1751419976",
-    "authorization": "b6ee24df-9f7e-4bbf-a4e8-3e40faf5faed",
-    "g_state": '{"i_l":0}'
-}
+BASE_URL = 'http://localhost:3000'
 
-suno = Suno(cookies=cookies)
+def generate_audio_by_prompt(prompt):
+    url = f"{BASE_URL}/api/generate"
+    payload = {
+        "prompt": prompt,
+        "make_instrumental": False,
+        "wait_audio": False
+    }
+    response = requests.post(url, json=payload, headers={'Content-Type': 'application/json'})
+    response.raise_for_status()
+    return response.json()
 
-prompt = "כתוב שיר שמח בעברית על קיץ וחוף הים"
+def get_audio_information(audio_ids):
+    url = f"{BASE_URL}/api/get?ids={audio_ids}"
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
 
-# יצירת השיר
-result = suno.generate(prompt)
+if __name__ == '__main__':
+    prompt = "כתוב שיר שמח בעברית על קיץ וחוף הים"
+    print("יוצר שיר...")
 
-# הדפסת הלינק לקובץ האודיו (אם הצליח)
-if result and "audio_url" in result:
-    print("Audio URL:", result["audio_url"])
-else:
-    print("לא התקבל קישור לאודיו, התוצאה המלאה:")
-    print(result)
-# ...existing code...
+    data = generate_audio_by_prompt(prompt)
+    ids = ",".join([str(item['id']) for item in data])
+    print(f"ids: {ids}")
+
+    # ממתין עד שהשירים מוכנים
+    for _ in range(60):
+        info = get_audio_information(ids)
+        if all(item.get("status") == 'streaming' for item in info):
+            for item in info:
+                print(f"{item['id']} ==> {item['audio_url']}")
+            break
+        time.sleep(5)
+    else:
+        print("Timeout: השירים לא הושלמו בזמן.")
