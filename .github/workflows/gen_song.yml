@@ -28,18 +28,13 @@ jobs:
           cd suno-api
           npm install
 
-      - name: Start suno-api server
+      - name: Start suno-api server (prints logs)
         run: |
           cd suno-api
-          nohup npm run dev &
-          sleep 30
+          npm run dev &
+          sleep 60
 
       - name: Run your Python script
         run: |
           pip install requests
           python song_generate.py
-
-      - name: Show suno-api logs
-      run: |
-        sleep 10
-        cat suno-api/.next/trace | tail -n 100 || echo "No trace log"      
